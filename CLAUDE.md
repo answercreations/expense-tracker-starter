@@ -31,5 +31,5 @@ There is no test framework or test script configured.
 
 ## Gotchas
 
-- `amount` is stored as a **string**, both in the seed data and from the number input. The totals use `reduce((sum, t) => sum + t.amount, 0)`, so they concatenate strings instead of adding numbers. This is the known bug the course fixes.
+- `amount` must be stored as a **number**. Input values are strings, so `handleSubmit` converts them with `Number(amount)`. Storing a string makes the `reduce` totals concatenate instead of add.
 - ESLint `no-unused-vars` ignores identifiers matching `^[A-Z_]`.
