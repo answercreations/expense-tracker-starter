@@ -22,10 +22,11 @@ There is no test framework or test script configured.
 
 - Vite 7 + React 19, plain JavaScript (JSX), ES modules. No router, no state library, no backend or persistence.
 - `index.html` → `src/main.jsx` (mounts `<App />` inside `StrictMode`) → `src/App.jsx`.
-- All app logic and UI live in the single `App` component in `src/App.jsx`:
-  - The transaction list is seeded with hard-coded sample data in `useState`. Each transaction has `{ id, description, amount, type: "income" | "expense", category, date }`.
-  - Form fields and the two filters (type, category) are separate `useState` hooks.
-  - Totals (income, expenses, balance) and the filtered list are derived during render, not stored in state.
+- `src/App.jsx` owns the `transactions` state (seeded with hard-coded sample data) and the shared `categories` array, and passes them down as props. Each transaction has `{ id, description, amount, type: "income" | "expense", category, date }`.
+- Child components in `src/`:
+  - `Summary.jsx` calculates the income, expense and balance totals from `transactions` during render.
+  - `TransactionForm.jsx` owns its own form-field state and hands each new transaction to App through the `onAdd` callback.
+  - `TransactionList.jsx` owns the type and category filter state and derives the filtered rows during render.
   - Categories come from a hard-coded `categories` array that both the add form and the category filter use.
 - Styles: global styles in `src/index.css`, component styles in `src/App.css` (plain CSS, class names referenced directly in JSX).
 
