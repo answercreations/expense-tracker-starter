@@ -47,3 +47,4 @@ Plain CSS: global styles in `src/index.css`, and every component's styles in `sr
 
 - `amount` must be stored as a **number**. Input values are strings, so `handleSubmit` in `TransactionForm.jsx` converts them with `Number(amount)`. Storing a string makes the `reduce` totals concatenate instead of add.
 - ESLint `no-unused-vars` ignores identifiers matching `^[A-Z_]`.
+- Formatting is not consistent yet, and there is no Prettier config or format script in the repo. `App.jsx` uses Prettier-style formatting (double quotes, semicolons, one property per line in multi-line objects), while the other components use single-quoted imports and leave the semicolon off imports and `export default`. Match the style of the file you're editing.
