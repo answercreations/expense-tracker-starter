@@ -30,10 +30,10 @@ There is no test framework or test script configured.
 App                 owns: transactions (useState, seeded with sample data)
 ├── Summary         props: transactions
 ├── TransactionForm props: categories, onAdd   owns: description, amount, type, category
-└── TransactionList props: transactions, categories   owns: filterType, filterCategory
+└── TransactionList props: transactions, categories, onDelete   owns: filterType, filterCategory
 ```
 
-- **App is the single source of truth** for `transactions`. Children never modify it directly: `TransactionForm` builds a complete transaction object and passes it to App's `onAdd` callback, and App appends it with a functional `setTransactions(prev => …)` update.
+- **App is the single source of truth** for `transactions`. Children never modify it directly: `TransactionForm` builds a complete transaction object and passes it to App's `onAdd` callback, and App appends it with a functional `setTransactions(prev => …)` update. Likewise, each row's Delete button in `TransactionList` asks for confirmation with `window.confirm` and, if the user clicks OK, passes the transaction's `id` to App's `onDelete`, which filters it out.
 - **UI-only state stays in the child that uses it.** Form field values live in `TransactionForm` and reset after a submit; filter selections live in `TransactionList`. Lift state into App only when a sibling needs it.
 - **Derived values are calculated during render, never stored in state.** `Summary` computes income, expenses and balance; `TransactionList` computes the filtered rows.
 - `categories` is a module-level constant in `App.jsx`, shared by the form's category picker and the list's category filter. Add new categories there.
