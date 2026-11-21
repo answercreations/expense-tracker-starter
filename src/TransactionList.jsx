@@ -2,6 +2,19 @@ import { useState } from 'react'
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
+const categoryColors = [
+  "#2a78d6", // blue
+  "#eb6834", // orange
+  "#1baf7a", // aqua
+  "#eda100", // yellow
+  "#e87ba4", // magenta
+  "#008300", // green
+  "#6250d6", // violet
+  "#e34948", // red
+];
+
+const getColor = (categories, category) => categoryColors[categories.indexOf(category) % categoryColors.length];
+
 function TransactionList({ transactions, categories, onDelete }) {
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -48,11 +61,21 @@ function TransactionList({ transactions, categories, onDelete }) {
           </tr>
         </thead>
         <tbody>
+          {filteredTransactions.length === 0 && (
+            <tr>
+              <td colSpan={5} className="empty-row">No transactions match these filters.</td>
+            </tr>
+          )}
           {filteredTransactions.map(t => (
             <tr key={t.id}>
               <td>{t.date}</td>
               <td>{t.description}</td>
-              <td>{capitalize(t.category)}</td>
+              <td>
+                <span className="category-tag">
+                  <span className="category-dot" style={{ background: getColor(categories, t.category) }} />
+                  {capitalize(t.category)}
+                </span>
+              </td>
               <td className={t.type === "income" ? "income-amount" : "expense-amount"}>
                 {t.type === "income" ? "+" : "-"}${t.amount}
               </td>

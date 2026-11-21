@@ -4,8 +4,37 @@
   box-sizing: border-box;
 }
 
+:root {
+  --paper: #eef0e8;
+  --surface: #ffffff;
+  --ink: #1c2420;
+  --ink-muted: #63706a;
+  --rule: #d8dacc;
+  --forest: #1f6f54;
+  --rust: #a3471f;
+  --gold: #c98a1a;
+}
+
+:root[data-theme="dark"] {
+  --paper: #151815;
+  --surface: #1e2420;
+  --ink: #eef1ec;
+  --ink-muted: #8b968f;
+  --rule: #313a34;
+  --forest: #4fb98a;
+  --rust: #d98858;
+  --gold: #e0a83c;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  font-family: "Inter", Arial, sans-serif;
+  background-color: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+h1,
+h2,
+.figure {
+  font-family: "Fraunces", Georgia, serif;
 }

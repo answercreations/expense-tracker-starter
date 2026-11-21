@@ -24,13 +24,17 @@ const lighten = (hex, amount) => {
 
 const getColor = (categories, category) => categoryColors[categories.indexOf(category) % categoryColors.length];
 
-function ChartCursor({ payload, categories, ...rest }) {
+function ChartCursor({ payload, categories, theme, ...rest }) {
   const category = payload?.[0]?.payload?.category;
-  const fill = category ? lighten(getColor(categories, category), 0.85) : "#e1e0d9";
+  if (!category) {
+    return <Rectangle {...rest} fill={theme === "dark" ? "#242b26" : "#eef0e8"} />;
+  }
+  const color = getColor(categories, category);
+  const fill = theme === "dark" ? `${color}33` : lighten(color, 0.85);
   return <Rectangle {...rest} fill={fill} />;
 }
 
-function SpendingChart({ transactions, categories }) {
+function SpendingChart({ transactions, categories, theme }) {
   const totals = transactions
     .filter(t => t.type === "expense")
     .reduce((acc, t) => {
@@ -46,25 +50,32 @@ function SpendingChart({ transactions, categories }) {
     return null;
   }
 
+  const ink = theme === "dark" ? "#eef1ec" : "#1c2420";
+  const inkMuted = theme === "dark" ? "#8b968f" : "#63706a";
+  const rule = theme === "dark" ? "#313a34" : "#d8dacc";
+  const surface = theme === "dark" ? "#1e2420" : "#ffffff";
+
   return (
     <div className="category-chart">
       <h2>Spending by Category</h2>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data} margin={{ top: 24, right: 8, bottom: 8, left: 8 }}>
-          <CartesianGrid vertical={false} stroke="#e1e0d9" />
-          <XAxis dataKey="category" tickFormatter={capitalize} tick={{ fontSize: 12, fill: "#333" }} axisLine={{ stroke: "#c3c2b7" }} tickLine={false} />
-          <YAxis tickFormatter={(value) => `$${value}`} tick={{ fontSize: 12, fill: "#898781" }} axisLine={{ stroke: "#c3c2b7" }} tickLine={false} />
+          <CartesianGrid vertical={false} stroke={rule} />
+          <XAxis dataKey="category" tickFormatter={capitalize} tick={{ fontSize: 12, fill: ink }} axisLine={{ stroke: rule }} tickLine={false} />
+          <YAxis tickFormatter={(value) => `$${value}`} tick={{ fontSize: 12, fill: inkMuted }} axisLine={{ stroke: rule }} tickLine={false} />
           <Tooltip
             formatter={(value) => [`$${value}`, "Spent"]}
             labelFormatter={capitalize}
-            contentStyle={{ fontSize: 13 }}
-            cursor={<ChartCursor categories={categories} />}
+            contentStyle={{ fontSize: 13, background: surface, border: `1px solid ${rule}`, borderRadius: 8, padding: "8px 12px" }}
+            labelStyle={{ color: ink }}
+            itemStyle={{ color: ink }}
+            cursor={<ChartCursor categories={categories} theme={theme} />}
           />
           <Bar dataKey="total" radius={[4, 4, 0, 0]} barSize={80}>
             {data.map((entry) => (
               <Cell key={entry.category} fill={getColor(categories, entry.category)} />
             ))}
-            <LabelList dataKey="total" position="top" formatter={(value) => `$${value}`} fontSize={12} fill="#52514e" />
+            <LabelList dataKey="total" position="top" formatter={(value) => `$${value}`} fontSize={12} fill={ink} />
           </Bar>
         </BarChart>
       </ResponsiveContainer>
