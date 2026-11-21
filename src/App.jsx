@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import Summary from "./Summary.jsx";
+import SpendingChart from "./SpendingChart.jsx";
 import TransactionForm from "./TransactionForm.jsx";
 import TransactionList from "./TransactionList.jsx";
 
@@ -96,6 +97,7 @@ function App() {
       <p className="subtitle">Track your income and expenses</p>
 
       <Summary transactions={transactions} />
+      <SpendingChart transactions={transactions} categories={categories} />
       <TransactionForm categories={categories} onAdd={addTransaction} />
       <TransactionList
         transactions={transactions}

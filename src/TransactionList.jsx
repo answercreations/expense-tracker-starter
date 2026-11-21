@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+
 function TransactionList({ transactions, categories, onDelete }) {
   const [filterType, setFilterType] = useState("all");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -30,7 +32,7 @@ function TransactionList({ transactions, categories, onDelete }) {
         <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
           <option value="all">All Categories</option>
           {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+            <option key={cat} value={cat}>{capitalize(cat)}</option>
           ))}
         </select>
       </div>
@@ -50,7 +52,7 @@ function TransactionList({ transactions, categories, onDelete }) {
             <tr key={t.id}>
               <td>{t.date}</td>
               <td>{t.description}</td>
-              <td>{t.category}</td>
+              <td>{capitalize(t.category)}</td>
               <td className={t.type === "income" ? "income-amount" : "expense-amount"}>
                 {t.type === "income" ? "+" : "-"}${t.amount}
               </td>
