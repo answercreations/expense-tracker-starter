@@ -105,6 +105,10 @@ h1 {
   margin-bottom: 24px;
 }
 
+.panels .add-transaction:only-child {
+  grid-column: 1 / -1;
+}
+
 .category-chart,
 .add-transaction {
   background: var(--surface);

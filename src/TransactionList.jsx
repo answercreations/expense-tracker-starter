@@ -1,19 +1,7 @@
 import { useState } from 'react'
+import { getColor } from './categoryColors.js'
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-
-const categoryColors = [
-  "#2a78d6", // blue
-  "#eb6834", // orange
-  "#1baf7a", // aqua
-  "#eda100", // yellow
-  "#e87ba4", // magenta
-  "#008300", // green
-  "#6250d6", // violet
-  "#e34948", // red
-];
-
-const getColor = (categories, category) => categoryColors[categories.indexOf(category) % categoryColors.length];
 
 function TransactionList({ transactions, categories, onDelete }) {
   const [filterType, setFilterType] = useState("all");

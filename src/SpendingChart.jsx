@@ -1,15 +1,5 @@
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-
-const categoryColors = [
-  "#2a78d6", // blue
-  "#eb6834", // orange
-  "#1baf7a", // aqua
-  "#eda100", // yellow
-  "#e87ba4", // magenta
-  "#008300", // green
-  "#6250d6", // violet
-  "#e34948", // red
-];
+import { getColor } from './categoryColors.js'
 
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
@@ -21,8 +11,6 @@ const lighten = (hex, amount) => {
   const b = mix(num & 255);
   return `#${[r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("")}`;
 };
-
-const getColor = (categories, category) => categoryColors[categories.indexOf(category) % categoryColors.length];
 
 function ChartCursor({ payload, categories, theme, ...rest }) {
   const category = payload?.[0]?.payload?.category;
